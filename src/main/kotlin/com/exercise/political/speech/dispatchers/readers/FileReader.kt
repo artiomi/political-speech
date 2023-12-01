@@ -1,10 +1,10 @@
 package com.exercise.political.speech.dispatchers.readers
 
-import java.io.BufferedReader
+import java.io.Reader
 
 interface FileReader {
     /**
      * TODO document it
      */
-    fun read(input: BufferedReader): List<FileRow>
+    fun read(reader: Reader): List<FileRow>
 }
