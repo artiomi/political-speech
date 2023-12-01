@@ -1,6 +1,7 @@
 package com.exercise.political.speech.controllers
 
 import com.exercise.political.speech.dispatchers.EvaluationRequestDispatcher
+import com.exercise.political.speech.exceptions.FileReadException
 import com.exercise.political.speech.exceptions.ValidationException
 import com.exercise.political.speech.validators.SpeechEvaluationValidator
 import org.slf4j.Logger
@@ -29,10 +30,17 @@ class ExceptionAdvice {
 
     private val log: Logger = LoggerFactory.getLogger(ExceptionAdvice::class.java)
 
-    @ExceptionHandler(ValidationException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun handleValidationFailure(exception: Throwable): Map<String, String?> {
-        log.error("Validation exception occurred.", exception)
-        return mapOf("cause" to exception.message)
+    @ExceptionHandler(ValidationException::class, FileReadException::class)
+    fun handleProcessingFailure(exception: Throwable): Map<String, String?> {
+        log.error("Exception occurred during request process.", exception)
+        return mapOf("message" to exception.message)
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Throwable::class)
+    fun handleGenericFailure(exception: Throwable): Map<String, String?> {
+        log.error("Request process failed.", exception)
+        return mapOf("message" to "Request process failed.")
     }
 }
