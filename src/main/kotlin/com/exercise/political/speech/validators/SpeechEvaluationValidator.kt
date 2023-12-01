@@ -1,7 +1,7 @@
-package com.exercise.political.speech.validator
+package com.exercise.political.speech.validators
 
-import com.exercise.political.speech.controller.UriSchema.*
-import com.exercise.political.speech.exception.ValidationException
+import com.exercise.political.speech.controllers.UriSchema.*
+import com.exercise.political.speech.exceptions.ValidationException
 import org.apache.commons.validator.routines.UrlValidator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

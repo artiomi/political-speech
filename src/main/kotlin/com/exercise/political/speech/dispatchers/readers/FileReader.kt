@@ -1,4 +1,4 @@
-package com.exercise.political.speech.dispatcher.reader
+package com.exercise.political.speech.dispatchers.readers
 
 import java.io.BufferedReader
 

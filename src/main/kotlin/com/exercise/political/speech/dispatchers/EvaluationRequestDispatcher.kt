@@ -1,11 +1,11 @@
-package com.exercise.political.speech.dispatcher
+package com.exercise.political.speech.dispatchers
 
-import com.exercise.political.speech.controller.EvaluationRequest
-import com.exercise.political.speech.controller.EvaluationRequests
-import com.exercise.political.speech.dispatcher.parser.FileParser
-import com.exercise.political.speech.dispatcher.reader.FileRow
-import com.exercise.political.speech.exception.FileReadException
-import com.exercise.political.speech.service.PoliticalSpeechSvc
+import com.exercise.political.speech.controllers.EvaluationRequest
+import com.exercise.political.speech.controllers.EvaluationRequests
+import com.exercise.political.speech.dispatchers.parsers.FileParser
+import com.exercise.political.speech.dispatchers.readers.FileRow
+import com.exercise.political.speech.exceptions.FileReadException
+import com.exercise.political.speech.services.PoliticalSpeechSvc
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

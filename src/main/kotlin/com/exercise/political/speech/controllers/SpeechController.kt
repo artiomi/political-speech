@@ -1,8 +1,8 @@
-package com.exercise.political.speech.controller
+package com.exercise.political.speech.controllers
 
-import com.exercise.political.speech.dispatcher.EvaluationRequestDispatcher
-import com.exercise.political.speech.exception.ValidationException
-import com.exercise.political.speech.validator.SpeechEvaluationValidator
+import com.exercise.political.speech.dispatchers.EvaluationRequestDispatcher
+import com.exercise.political.speech.exceptions.ValidationException
+import com.exercise.political.speech.validators.SpeechEvaluationValidator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

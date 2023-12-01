@@ -1,4 +1,4 @@
-package com.exercise.political.speech.controller
+package com.exercise.political.speech.controllers
 
 import java.net.URI
 

@@ -1,9 +1,9 @@
-package com.exercise.political.speech.dispatcher.parser
+package com.exercise.political.speech.dispatchers.parsers
 
-import com.exercise.political.speech.controller.EvaluationRequest
-import com.exercise.political.speech.controller.UriSchema.*
-import com.exercise.political.speech.dispatcher.reader.FileReader
-import com.exercise.political.speech.dispatcher.reader.FileRow
+import com.exercise.political.speech.controllers.EvaluationRequest
+import com.exercise.political.speech.controllers.UriSchema.*
+import com.exercise.political.speech.dispatchers.readers.FileReader
+import com.exercise.political.speech.dispatchers.readers.FileRow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.UrlResource
@@ -17,13 +17,13 @@ class UrlResourceParser(val fileReader: FileReader) : FileParser {
     override fun supports(evaluationRequest: EvaluationRequest) = allowedSchemas.contains(evaluationRequest.schema)
 
     override fun parse(evaluationRequest: EvaluationRequest): List<FileRow> {
-
         log.info("Evaluation request received: $evaluationRequest")
 
         val urlResource = UrlResource(evaluationRequest.uri)
         return urlResource
             .inputStream
-            .use { fileReader.read(it.bufferedReader()) }
+            .bufferedReader()
+            .use { fileReader.read(it) }
     }
 
 }

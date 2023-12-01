@@ -1,6 +1,6 @@
-package com.exercise.political.speech.dispatcher.reader
+package com.exercise.political.speech.dispatchers.readers
 
-import com.exercise.political.speech.exception.FileReadException
+import com.exercise.political.speech.exceptions.FileReadException
 import com.opencsv.CSVParserBuilder
 import com.opencsv.CSVReaderBuilder
 import org.springframework.stereotype.Component

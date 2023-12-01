@@ -1,7 +1,7 @@
-package com.exercise.political.speech.dispatcher.parser
+package com.exercise.political.speech.dispatchers.parsers
 
-import com.exercise.political.speech.controller.EvaluationRequest
-import com.exercise.political.speech.dispatcher.reader.FileRow
+import com.exercise.political.speech.controllers.EvaluationRequest
+import com.exercise.political.speech.dispatchers.readers.FileRow
 
 interface FileParser {
     /**
