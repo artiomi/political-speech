@@ -1,6 +1,6 @@
 package com.exercise.political.speech.validator
 
-import com.exercise.political.speech.controller.UriSchema.FILE
+import com.exercise.political.speech.controller.UriSchema.*
 import com.exercise.political.speech.exception.ValidationException
 import org.apache.commons.validator.routines.UrlValidator
 import org.springframework.beans.factory.annotation.Value
@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 
 @Component
 class SpeechEvaluationValidator(@Value("\${app.speech.validator.max-allowed-urls}") val maxAllowedUrls: Int) {
-    private val allowedSchemas = arrayOf(FILE.value)
+    private val allowedSchemas = arrayOf(FILE.value, HTTP.value, HTTPS.value)
     private val urlValidator = UrlValidator(allowedSchemas)
     private val urlRegex = "^url[1-9](\\d+)?\$"
     private val urlParamPattern: Pattern = Pattern.compile(urlRegex)

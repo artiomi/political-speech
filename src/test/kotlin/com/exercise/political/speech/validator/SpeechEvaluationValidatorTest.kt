@@ -65,18 +65,18 @@ class SpeechEvaluationValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["http", "some_schema", ""])
+    @ValueSource(strings = ["some_schema", ""])
     fun `throw exception for invalid url schema`(schema: String) {
         val map = mapOf("url1" to "$schema:///a")
         assertThatThrownBy { validator.validate(map) }
             .isExactlyInstanceOf(ValidationException::class.java)
-            .hasMessage("Request is invalid. Value:[$schema:///a] is not valid. Allowed schemas are:[file]")
+            .hasMessage("Request is invalid. Value:[$schema:///a] is not valid. Allowed schemas are:[file, http, https]")
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["file"])
-    fun `no exception is thrown for valid url schema`(schema: String) {
-        val map = mapOf("url1" to "$schema:///a")
+    @ValueSource(strings = ["file:///a", "https://github.com", "http://github.com"])
+    fun `no exception is thrown for valid url schema`(url: String) {
+        val map = mapOf("url1" to url)
         assertThatNoException().isThrownBy { validator.validate(map) }
     }
 }
