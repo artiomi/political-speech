@@ -9,7 +9,7 @@ class ParamsTransformerKtTest {
     @Test
     fun `successfully transforms list of params to request`() {
         val map = mapOf("url1" to "file:///a", "url2" to "file:///b")
-        val result = transform(map)
+        val result = paramsToRequest(map)
         assertThat(result.payloads).hasSize(2)
         assertThat(result.payloads).allMatch { it.schema == UriSchema.FILE }
         assertThat(result.payloads).anyMatch { it.uri.toString() == "file:///a" }
@@ -18,7 +18,7 @@ class ParamsTransformerKtTest {
     @Test
     fun `throw exception during transforming url with not acceptable schema`() {
         val map = mapOf("url1" to "https://github.com")
-        assertThatThrownBy { transform(map) }
+        assertThatThrownBy { paramsToRequest(map) }
             .isExactlyInstanceOf(NoSuchElementException::class.java)
     }
 }
