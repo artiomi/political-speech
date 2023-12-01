@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.4
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: speeches
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
