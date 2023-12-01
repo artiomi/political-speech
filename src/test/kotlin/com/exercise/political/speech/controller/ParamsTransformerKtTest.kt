@@ -10,9 +10,9 @@ class ParamsTransformerKtTest {
     fun `successfully transforms list of params to request`() {
         val map = mapOf("url1" to "file:///a", "url2" to "file:///b")
         val result = paramsToRequest(map)
-        assertThat(result.payloads).hasSize(2)
-        assertThat(result.payloads).allMatch { it.schema == UriSchema.FILE }
-        assertThat(result.payloads).anyMatch { it.uri.toString() == "file:///a" }
+        assertThat(result.evaluationRequests).hasSize(2)
+        assertThat(result.evaluationRequests).allMatch { it.schema == UriSchema.FILE }
+        assertThat(result.evaluationRequests).anyMatch { it.uri.toString() == "file:///a" }
     }
 
     @Test

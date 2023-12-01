@@ -2,11 +2,11 @@ package com.exercise.political.speech.controller
 
 import java.net.URI
 
-fun paramsToRequest(urlParams: Map<String, String>): EvaluationRequest {
+fun paramsToRequest(urlParams: Map<String, String>): EvaluationRequests {
     return urlParams.values
         .map { URI(it) }
-        .map { Payload(it.scheme.toUriSchema(), it) }
-        .let { EvaluationRequest(it) }
+        .map { EvaluationRequest(it.scheme.toUriSchema(), it) }
+        .let { EvaluationRequests(it) }
 }
 
 
