@@ -14,6 +14,8 @@ import org.mockito.kotlin.whenever
 class EvaluationAggregationsAssemblerTest {
     private val mostSpeechesSpeaker = "speaker1"
     private val mostSecuritySpeaker = "speaker2"
+    private val leastWordySpeaker = "speaker3"
+
 
     @Test
     fun `throws exception for missing aggregation`() {
@@ -28,7 +30,7 @@ class EvaluationAggregationsAssemblerTest {
         assertThat(result.size).isEqualTo(3)
         assertThat(result["mostSpeeches"]).isEqualTo(mostSpeechesSpeaker)
         assertThat(result["mostSecurity"]).isEqualTo(mostSecuritySpeaker)
-        assertThat(result["leastWordy"]).isNull()
+        assertThat(result["leastWordy"]).isEqualTo(leastWordySpeaker)
     }
 
     private fun mockAggregations(): List<Aggregation> {
@@ -42,7 +44,7 @@ class EvaluationAggregationsAssemblerTest {
 
         val wordsAggregation = mock<Aggregation>()
         whenever(wordsAggregation.componentId).thenReturn(WORDS_SUM)
-        whenever(wordsAggregation.execute()).thenReturn(null)
+        whenever(wordsAggregation.execute()).thenReturn(leastWordySpeaker)
 
         return listOf(yearAggregation, topicAggregation, wordsAggregation)
     }
