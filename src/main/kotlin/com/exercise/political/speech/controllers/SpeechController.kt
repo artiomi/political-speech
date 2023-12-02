@@ -1,6 +1,7 @@
 package com.exercise.political.speech.controllers
 
 import com.exercise.political.speech.dispatchers.EvaluationRequestDispatcher
+import com.exercise.political.speech.exceptions.AssembleException
 import com.exercise.political.speech.exceptions.FileReadException
 import com.exercise.political.speech.exceptions.ValidationException
 import com.exercise.political.speech.validators.SpeechEvaluationValidator
@@ -10,17 +11,16 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/speeches")
 class SpeechController(
     val requestValidator: SpeechEvaluationValidator,
     val evaluationRequestDispatcher: EvaluationRequestDispatcher
 ) {
-    @GetMapping("/evaluate")
+    @GetMapping("/evaluation")
     @ResponseStatus(HttpStatus.OK)
-    fun evaluate(@RequestParam params: Map<String, String>) {
+    fun evaluate(@RequestParam params: Map<String, String>): Map<String, String?> {
         requestValidator.validate(params)
         val request = paramsToRequest(params)
-        evaluationRequestDispatcher.execute(request)
+        return evaluationRequestDispatcher.dispatch(request)
     }
 
 }
@@ -31,7 +31,7 @@ class ExceptionAdvice {
     private val log: Logger = LoggerFactory.getLogger(ExceptionAdvice::class.java)
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidationException::class, FileReadException::class)
+    @ExceptionHandler(ValidationException::class, FileReadException::class, AssembleException::class)
     fun handleProcessingFailure(exception: Throwable): Map<String, String?> {
         log.error("Exception occurred during request process.", exception)
         return mapOf("message" to exception.message)

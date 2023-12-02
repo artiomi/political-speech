@@ -13,21 +13,15 @@ import org.springframework.stereotype.Service
 @Service
 class EvaluationRequestDispatcher(
     val fileParsers: List<FileParser>,
-    val politicalSpeechSvc: PoliticalSpeechSvc
+    val politicalSpeechSvc: PoliticalSpeechSvc,
+    val evaluationAggregationsAssembler: EvaluationAggregationsAssembler
 ) {
     private val log: Logger = LoggerFactory.getLogger(EvaluationRequestDispatcher::class.java)
 
-    fun execute(requests: EvaluationRequests) {
+    fun dispatch(requests: EvaluationRequests): Map<String, String?> {
         val rows = readRows(requests)
         politicalSpeechSvc.cleanAndSave(rows)
-
-
-        //TODO
-        // 2. read data from urls, parse and transform to model
-        // 3. store in DB, before cleaning old data
-        // 4. call executors for each type of param
-        // 5 return response
-        // 6. tests
+        return evaluationAggregationsAssembler.assemble()
     }
 
     private fun readRows(requests: EvaluationRequests): List<FileRow> {
