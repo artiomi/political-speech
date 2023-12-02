@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class EvaluationRequestDispatcher(
-    val fileParsers: List<FileParser>,
-    val politicalSpeechSvc: PoliticalSpeechSvc,
-    val evaluationAggregationsAssembler: EvaluationAggregationsAssembler
+    private val fileParsers: List<FileParser>,
+    private val politicalSpeechSvc: PoliticalSpeechSvc,
+    private val evaluationAggregationsAssembler: EvaluationAggregationsAssembler
 ) {
     private val log: Logger = LoggerFactory.getLogger(EvaluationRequestDispatcher::class.java)
 

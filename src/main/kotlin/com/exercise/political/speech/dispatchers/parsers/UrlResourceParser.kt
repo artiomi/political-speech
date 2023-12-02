@@ -10,7 +10,7 @@ import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
 
 @Component
-class UrlResourceParser(val fileReader: FileReader) : FileParser {
+class UrlResourceParser(private val fileReader: FileReader) : FileParser {
     private val log: Logger = LoggerFactory.getLogger(UrlResourceParser::class.java)
     private val allowedSchemas = listOf(FILE, HTTP, HTTPS)
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 import java.util.regex.Pattern
 
 @Component
-class SpeechEvaluationValidator(@Value("\${app.speech.validator.max-allowed-urls}") val maxAllowedUrls: Int) {
+class SpeechEvaluationValidator(@Value("\${app.speech.validator.max-allowed-urls}") private val maxAllowedUrls: Int) {
     private val allowedSchemas = arrayOf(FILE.value, HTTP.value, HTTPS.value)
     private val urlValidator = UrlValidator(allowedSchemas)
     private val urlRegex = "^url[1-9](\\d+)?\$"

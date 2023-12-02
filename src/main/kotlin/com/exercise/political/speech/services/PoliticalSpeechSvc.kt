@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class PoliticalSpeechSvc(val politicalSpeechRepo: PoliticalSpeechRepo) {
+class PoliticalSpeechSvc(private val politicalSpeechRepo: PoliticalSpeechRepo) {
 
     @Transactional
     fun cleanAndSave(rows: List<FileRow>) {

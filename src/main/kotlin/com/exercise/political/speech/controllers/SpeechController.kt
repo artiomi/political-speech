@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 class SpeechController(
-    val requestValidator: SpeechEvaluationValidator,
-    val evaluationRequestDispatcher: EvaluationRequestDispatcher
+    private val requestValidator: SpeechEvaluationValidator,
+    private val evaluationRequestDispatcher: EvaluationRequestDispatcher
 ) {
     @GetMapping("/evaluation")
     @ResponseStatus(HttpStatus.OK)

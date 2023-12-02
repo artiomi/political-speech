@@ -8,7 +8,7 @@ import com.exercise.political.speech.exceptions.AssembleException
 import org.springframework.stereotype.Component
 
 @Component
-class EvaluationAggregationsAssembler(val aggregations: List<Aggregation>) {
+class EvaluationAggregationsAssembler(private val aggregations: List<Aggregation>) {
     val attributeComponentIdMap = mapOf(
         "mostSpeeches" to YEAR_COUNT,
         "mostSecurity" to TOPIC_COUNT,
