@@ -14,5 +14,5 @@ interface Aggregation {
      *
      * @return String!
      */
-    fun execute(): String?
+    fun execute(assembleContext: AssembleContext): String?
 }

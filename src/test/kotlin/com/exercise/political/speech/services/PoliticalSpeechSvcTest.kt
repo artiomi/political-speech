@@ -1,5 +1,6 @@
 package com.exercise.political.speech.services
 
+import com.exercise.political.speech.BATCH_ID
 import com.exercise.political.speech.dispatchers.readers.FileRow
 import com.exercise.political.speech.models.PoliticalSpeech
 import com.exercise.political.speech.repositories.PoliticalSpeechRepo
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.*
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import java.time.LocalDate
 
 @ExtendWith(value = [MockitoExtension::class])
@@ -26,41 +29,34 @@ class PoliticalSpeechSvcTest {
     }
 
     @Nested
-    inner class CleanAndSaveTest {
-        @Test
-        fun `throws exception when delete fails`() {
-            whenever(politicalSpeechRepo.deleteAll()).thenThrow(RuntimeException::class.java)
-
-            assertThatThrownBy { politicalSpeechSvc.cleanAndSave(emptyList()) }
-                .isInstanceOf(RuntimeException::class.java)
-            verify(politicalSpeechRepo, never()).saveAll(any<List<PoliticalSpeech>>())
-        }
+    inner class SaveAllInBatchTest {
 
         @Test
         fun `throws exception when save fails`() {
             val fileRow = FileRow("Alexander Abel", "education", LocalDate.parse("2012-10-30"), 5310)
-            val speech = PoliticalSpeech("Alexander Abel", "education", LocalDate.parse("2012-10-30"), 5310)
-            whenever(politicalSpeechRepo.saveAll(listOf(speech))).thenThrow(RuntimeException::class.java)
+            whenever(politicalSpeechRepo.saveAll(argThat(matches(fileRow))))
+                .thenThrow(RuntimeException::class.java)
 
-            assertThatThrownBy { politicalSpeechSvc.cleanAndSave(listOf(fileRow)) }
+            assertThatThrownBy { politicalSpeechSvc.saveAllInBatch(listOf(fileRow), BATCH_ID) }
                 .isInstanceOf(RuntimeException::class.java)
-            verify(politicalSpeechRepo).deleteAll()
         }
 
         @Test
         fun `successfully delete old entries and save new`() {
             val fileRow = FileRow("Alexander Abel", "education", LocalDate.parse("2012-10-30"), 5310)
 
-            assertDoesNotThrow { politicalSpeechSvc.cleanAndSave(listOf(fileRow)) }
-            verify(politicalSpeechRepo).deleteAll()
-            verify(politicalSpeechRepo)
-                .saveAll(argThat<List<PoliticalSpeech>> {
-                    size == 1
-                            && first().topic == fileRow.topic
-                            && first().speakerName == fileRow.speakerName
-                            && first().wordsCount == fileRow.wordsCount
-                            && first().occurredAt == fileRow.occurredAt
-                })
+            assertDoesNotThrow { politicalSpeechSvc.saveAllInBatch(listOf(fileRow), BATCH_ID) }
+            verify(politicalSpeechRepo).saveAll(argThat(matches(fileRow)))
         }
+
+        private fun matches(fileRow: FileRow): List<PoliticalSpeech>.() -> Boolean =
+            {
+                size == 1
+                        && first().topic == fileRow.topic
+                        && first().speakerName == fileRow.speakerName
+                        && first().wordsCount == fileRow.wordsCount
+                        && first().occurredAt == fileRow.occurredAt
+                        && first().batchId == BATCH_ID
+            }
     }
 }

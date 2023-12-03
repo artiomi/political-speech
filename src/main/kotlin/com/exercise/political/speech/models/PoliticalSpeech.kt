@@ -14,6 +14,8 @@ class PoliticalSpeech(
     val occurredAt: LocalDate,
     @Column(name = "words_count")
     val wordsCount: Int,
+    @Column(name = "batch_id")
+    val batchId: String,
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     var id: String? = null,

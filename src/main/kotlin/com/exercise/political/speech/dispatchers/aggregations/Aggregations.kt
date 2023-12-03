@@ -17,8 +17,8 @@ class YearCountAggregation(
 
     override val uniqueId = YEAR_COUNT
 
-    override fun execute(): String? {
-        val results = politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(speechYear)
+    override fun execute(assembleContext: AssembleContext): String? {
+        val results = politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(speechYear, assembleContext.batchId)
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }
@@ -31,8 +31,8 @@ class TopicCountAggregation(
 
     override val uniqueId = TOPIC_COUNT
 
-    override fun execute(): String? {
-        val results = politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(speechTopic)
+    override fun execute(assembleContext: AssembleContext): String? {
+        val results = politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(speechTopic, assembleContext.batchId)
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }
@@ -42,8 +42,8 @@ class WordsSumAggregation(private val politicalSpeechRepo: PoliticalSpeechRepo) 
 
     override val uniqueId = WORDS_SUM
 
-    override fun execute(): String? {
-        val results = politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()
+    override fun execute(assembleContext: AssembleContext): String? {
+        val results = politicalSpeechRepo.sumSpeakersWordsOrderSumAsc(assembleContext.batchId)
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }

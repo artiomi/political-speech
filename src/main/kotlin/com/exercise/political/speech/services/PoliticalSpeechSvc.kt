@@ -10,13 +10,18 @@ import org.springframework.transaction.annotation.Transactional
 class PoliticalSpeechSvc(private val politicalSpeechRepo: PoliticalSpeechRepo) {
 
     @Transactional
-    fun cleanAndSave(rows: List<FileRow>) {
-        politicalSpeechRepo.deleteAll()
-        val speeches = rows.map { it.toPoliticalSpeech() }
+    fun saveAllInBatch(rows: List<FileRow>, batchId: String) {
+        val speeches = rows.map { it.toPoliticalSpeech(batchId) }
         politicalSpeechRepo.saveAll(speeches)
     }
 }
 
-private fun FileRow.toPoliticalSpeech() =
-    PoliticalSpeech(speakerName = speakerName, topic = topic, occurredAt = occurredAt, wordsCount = wordsCount)
+private fun FileRow.toPoliticalSpeech(batchId: String) =
+    PoliticalSpeech(
+        speakerName = speakerName,
+        topic = topic,
+        occurredAt = occurredAt,
+        wordsCount = wordsCount,
+        batchId = batchId
+    )
 

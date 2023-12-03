@@ -1,9 +1,6 @@
 package com.exercise.political.speech.dispatchers
 
-import com.exercise.political.speech.dispatchers.aggregations.Aggregation
-import com.exercise.political.speech.dispatchers.aggregations.TOPIC_COUNT
-import com.exercise.political.speech.dispatchers.aggregations.WORDS_SUM
-import com.exercise.political.speech.dispatchers.aggregations.YEAR_COUNT
+import com.exercise.political.speech.dispatchers.aggregations.*
 import com.exercise.political.speech.exceptions.AssembleException
 import org.springframework.stereotype.Component
 
@@ -15,11 +12,11 @@ class EvaluationAggregationsAssembler(private val aggregations: List<Aggregation
         "leastWordy" to WORDS_SUM
     )
 
-    fun assemble(): Map<String, String?> {
+    fun assemble(assembleContext: AssembleContext): Map<String, String?> {
         val result = mutableMapOf<String, String?>()
         for ((field, componentId) in responseFieldsRegistry) {
             val aggregation = getAggregationComponent(field, componentId)
-            val value = aggregation.execute()
+            val value = aggregation.execute(assembleContext)
             result[field] = value
         }
         return result

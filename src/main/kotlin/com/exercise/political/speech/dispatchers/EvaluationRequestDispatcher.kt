@@ -2,6 +2,7 @@ package com.exercise.political.speech.dispatchers
 
 import com.exercise.political.speech.controllers.EvaluationRequest
 import com.exercise.political.speech.controllers.EvaluationRequests
+import com.exercise.political.speech.dispatchers.aggregations.AssembleContext
 import com.exercise.political.speech.dispatchers.parsers.FileParser
 import com.exercise.political.speech.dispatchers.readers.FileRow
 import com.exercise.political.speech.exceptions.FileReadException
@@ -21,8 +22,8 @@ class EvaluationRequestDispatcher(
     fun dispatch(requests: EvaluationRequests): Map<String, String?> {
         log.info("EvaluationRequests received: $requests")
         val rows = readRows(requests)
-        politicalSpeechSvc.cleanAndSave(rows)
-        val assembleResult = evaluationAggregationsAssembler.assemble()
+        politicalSpeechSvc.saveAllInBatch(rows, requests.batchId)
+        val assembleResult = evaluationAggregationsAssembler.assemble(AssembleContext(requests.batchId))
         log.info("EvaluationRequests $requests process complete. Result: $assembleResult")
 
         return assembleResult

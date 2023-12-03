@@ -21,7 +21,14 @@
       <column name="words_count" type="INT">
         <constraints nullable="false"/>
       </column>
+      <column name="batch_id" type="VARCHAR(50)">
+        <constraints nullable="false"/>
+      </column>
     </createTable>
+
+    <createIndex indexName="index_batch_id" tableName="political_speeches">
+      <column name="batch_id"/>
+    </createIndex>
 
   </changeSet>
 </databaseChangeLog>

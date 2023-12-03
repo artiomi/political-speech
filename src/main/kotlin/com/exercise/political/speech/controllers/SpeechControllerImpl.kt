@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 class SpeechControllerImpl(
@@ -20,7 +21,8 @@ class SpeechControllerImpl(
 
     override fun evaluation(params: Map<String, String>): ResponseEntity<Map<String, String?>> {
         requestValidator.validate(params)
-        val request = paramsToRequest(params)
+        val batchId = UUID.randomUUID().toString()
+        val request = paramsToRequest(params, batchId)
         val evaluationResult = evaluationRequestDispatcher.dispatch(request)
 
         return ResponseEntity.ok(evaluationResult)
