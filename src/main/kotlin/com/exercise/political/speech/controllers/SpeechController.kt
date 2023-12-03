@@ -1,10 +1,5 @@
 package com.exercise.political.speech.controllers
 
-import com.exercise.political.speech.dispatchers.EvaluationRequestDispatcher
-import com.exercise.political.speech.exceptions.AssembleException
-import com.exercise.political.speech.exceptions.FileReadException
-import com.exercise.political.speech.exceptions.ValidationException
-import com.exercise.political.speech.validators.SpeechEvaluationValidator
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.Parameters
@@ -12,16 +7,12 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 
-@RestController
-class SpeechController(
-    private val requestValidator: SpeechEvaluationValidator,
-    private val evaluationRequestDispatcher: EvaluationRequestDispatcher
-) {
+interface SpeechController {
 
     @Operation(summary = "Evaluates political speeches.")
     @ApiResponses(
@@ -73,31 +64,8 @@ class SpeechController(
         )
     )
     @GetMapping("/evaluation")
-    fun evaluate(@RequestParam params: Map<String, String>): ResponseEntity<Map<String, String?>> {
-        requestValidator.validate(params)
-        val request = paramsToRequest(params)
-        val evaluationResult = evaluationRequestDispatcher.dispatch(request)
-
-        return ResponseEntity.ok(evaluationResult)
+    fun evaluation(@RequestParam params: Map<String, String>): ResponseEntity<Map<String, String?>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
-
-@ControllerAdvice
-class ExceptionAdvice {
-
-    private val log: Logger = LoggerFactory.getLogger(ExceptionAdvice::class.java)
-
-    @ExceptionHandler(ValidationException::class, FileReadException::class, AssembleException::class)
-    fun handleProcessingFailure(exception: Throwable): ResponseEntity<Map<String, String?>> {
-        log.error("Exception occurred during request process.", exception)
-        return ResponseEntity.badRequest().body(mapOf("message" to exception.message))
-    }
-
-    @ExceptionHandler(Throwable::class)
-    fun handleGenericFailure(exception: Throwable): ResponseEntity<Map<String, String>> {
-        log.error("Request process failed.", exception)
-        return ResponseEntity.badRequest().body(mapOf("message" to "Request process failed."))
-    }
-}
-
 
