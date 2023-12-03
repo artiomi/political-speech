@@ -39,8 +39,11 @@ Alexander Abel; homeland security; 2012-12-11; 911
  param value should be a valid URL to a CSV file, currently are supported only`file, http, https` schemas.
  By default, the endpoint accepts up to 5 query params, this value can be updated via `app.speech.validator.max-allowed-urls` application property.
 - Content of the CSV file to which URL points is read and mapped to a POJO.
-- The read rows are stored in database temporarily, in order to be used for speech parameters calculations in next step.
-- Evaluation indices calculation is done by a dedicated calculator component per index. Some of them accept customization via properties:
+- CSV records are mapped with a `batchId`(random value generated for each evaluation request) and stored in database for evaluation calculations from next step.
+ This solution was chosen in order to use SQL aggregation functionality for further calculations. 
+- Each evaluation index calculation is done by a dedicated component.
+  Currently, all evaluation components, run a custom SQL query for specific `batchId`, with additional filters (if needed) 
+ and return aggregated results per candidate.  Some components accept customization via properties:
   - For *most speeches per year*, via property `app.speech.aggregation.speech-year`, can be updated the year for which aggregation is made.
   Default:`2013`.
   - For *topic related speech*, via property `app.speech.aggregation.speech-topic` , can be updated the topic for which aggregation is made.
