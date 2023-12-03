@@ -15,7 +15,7 @@ class YearCountAggregation(
     @Value(value = "\${app.speech.aggregation.speech-year}") private val speechYear: Int
 ) : Aggregation {
 
-    override val componentId = YEAR_COUNT
+    override val uniqueId = YEAR_COUNT
 
     override fun execute(): String? {
         val results = politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(speechYear)
@@ -29,7 +29,7 @@ class TopicCountAggregation(
     @Value(value = "\${app.speech.aggregation.speech-topic}") private val speechTopic: String
 ) : Aggregation {
 
-    override val componentId = TOPIC_COUNT
+    override val uniqueId = TOPIC_COUNT
 
     override fun execute(): String? {
         val results = politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(speechTopic)
@@ -40,7 +40,7 @@ class TopicCountAggregation(
 @Component
 class WordsSumAggregation(private val politicalSpeechRepo: PoliticalSpeechRepo) : Aggregation {
 
-    override val componentId = WORDS_SUM
+    override val uniqueId = WORDS_SUM
 
     override fun execute(): String? {
         val results = politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()

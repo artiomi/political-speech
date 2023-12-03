@@ -35,15 +35,15 @@ class EvaluationAggregationsAssemblerTest {
 
     private fun mockAggregations(): List<Aggregation> {
         val yearAggregation = mock<Aggregation>()
-        whenever(yearAggregation.componentId).thenReturn(YEAR_COUNT)
+        whenever(yearAggregation.uniqueId).thenReturn(YEAR_COUNT)
         whenever(yearAggregation.execute()).thenReturn(mostSpeechesSpeaker)
 
         val topicAggregation = mock<Aggregation>()
-        whenever(topicAggregation.componentId).thenReturn(TOPIC_COUNT)
+        whenever(topicAggregation.uniqueId).thenReturn(TOPIC_COUNT)
         whenever(topicAggregation.execute()).thenReturn(mostSecuritySpeaker)
 
         val wordsAggregation = mock<Aggregation>()
-        whenever(wordsAggregation.componentId).thenReturn(WORDS_SUM)
+        whenever(wordsAggregation.uniqueId).thenReturn(WORDS_SUM)
         whenever(wordsAggregation.execute()).thenReturn(leastWordySpeaker)
 
         return listOf(yearAggregation, topicAggregation, wordsAggregation)

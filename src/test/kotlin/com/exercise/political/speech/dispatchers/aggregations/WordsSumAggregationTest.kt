@@ -22,7 +22,7 @@ class WordsSumAggregationTest {
 
     @Test
     fun `returns componentId WORDS_SUM`() {
-        assertThat(wordsSumAggregation.componentId).isEqualTo("WORDS_SUM")
+        assertThat(wordsSumAggregation.uniqueId).isEqualTo("WORDS_SUM")
     }
 
     @Test

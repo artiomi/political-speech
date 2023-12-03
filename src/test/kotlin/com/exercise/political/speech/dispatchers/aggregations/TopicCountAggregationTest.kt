@@ -24,7 +24,7 @@ class TopicCountAggregationTest {
 
     @Test
     fun `returns componentId TOPIC_COUNT`() {
-        assertThat(topicCountAggregation.componentId).isEqualTo("TOPIC_COUNT")
+        assertThat(topicCountAggregation.uniqueId).isEqualTo("TOPIC_COUNT")
     }
 
     @Test

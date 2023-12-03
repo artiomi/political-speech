@@ -24,7 +24,7 @@ class YearCountAggregationTest {
 
     @Test
     fun `returns componentId YEAR_COUNT`() {
-        assertThat(yearCountAggregation.componentId).isEqualTo("YEAR_COUNT")
+        assertThat(yearCountAggregation.uniqueId).isEqualTo("YEAR_COUNT")
     }
 
     @Test
