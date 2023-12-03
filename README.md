@@ -6,15 +6,23 @@ The following application provide functionality to evaluate political candidates
 - Which politician gave the most speeches on "homeland security"?
 - Which politician spoke the fewest words overall?
 <p>
-In order to provide above information, was developed a REST API endpoint which receives a list of URLs to CSV files with political speeches details.<br>
+In order to provide above information, was developed a REST API endpoint which receives a list of URLs, which points to CSV files with political speeches details.<br>
 
 ```shell
   curl -X 'GET' \
   'http://localhost:8080/evaluation?url1=file:/D:/data/test-input1.csv&url2=file:/D:/data/test-input2.csv' \
   -H 'accept: application/json'
 ```
+__Response format:__ <br>
+```
+{
+ "mostSpeeches": string|null,
+ "mostSecurity": string|null,
+ "leastWordy": string|null
+}
+```
 
-#### CSV file format
+#### Input CSV file format
 The CSV file should contain these headers: `Speaker ; Topic ; Date ; Words` which are separated by `;`.<br>
 __Example:__
 
@@ -28,11 +36,11 @@ Alexander Abel; homeland security; 2012-12-11; 911
 
 #### Execution steps
 - Endpoint accepts query parameters in following form: param name should have format `urlN`, where `N` is an `Int > 0`, 
- param value should be a valid URL, currently are supported only`file, http, https` schemas.
- By default, the endpoint accepts up to 5 query params, this value can be updated by providing desired value to `app.speech.validator.max-allowed-urls` application property.
-- Content of the CSV file to which URL points is read and mapped to POJO.
+ param value should be a valid URL to a CSV file, currently are supported only`file, http, https` schemas.
+ By default, the endpoint accepts up to 5 query params, this value can be updated via `app.speech.validator.max-allowed-urls` application property.
+- Content of the CSV file to which URL points is read and mapped to a POJO.
 - The read rows are stored in database temporarily, in order to be used for speech parameters calculations in next step.
-- Evaluation indices calculation is done by a dedicated calculator component. Some of them accept customization via properties:
+- Evaluation indices calculation is done by a dedicated calculator component per index. Some of them accept customization via properties:
   - For *most speeches per year*, via property `app.speech.aggregation.speech-year`, can be updated the year for which aggregation is made.
   Default:`2013`.
   - For *topic related speech*, via property `app.speech.aggregation.speech-topic` , can be updated the topic for which aggregation is made.
