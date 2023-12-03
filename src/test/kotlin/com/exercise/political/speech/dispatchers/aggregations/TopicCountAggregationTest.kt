@@ -29,7 +29,7 @@ class TopicCountAggregationTest {
 
     @Test
     fun `returns null if no speaker found`() {
-        whenever(politicalSpeechRepo.groupSpeakersPerTopicOrderDesc(TOPIC_VALUE)).thenReturn(emptyList())
+        whenever(politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(TOPIC_VALUE)).thenReturn(emptyList())
         val speakerName = topicCountAggregation.execute()
         assertThat(speakerName).isNull()
     }
@@ -37,7 +37,7 @@ class TopicCountAggregationTest {
     @Test
     fun `returns first speaker name if only one exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 1))
-        whenever(politicalSpeechRepo.groupSpeakersPerTopicOrderDesc(TOPIC_VALUE)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(TOPIC_VALUE)).thenReturn(aggResult)
         val speakerName = topicCountAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -45,7 +45,7 @@ class TopicCountAggregationTest {
     @Test
     fun `returns first speaker name if one with highest count is unique`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 7))
-        whenever(politicalSpeechRepo.groupSpeakersPerTopicOrderDesc(TOPIC_VALUE)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(TOPIC_VALUE)).thenReturn(aggResult)
         val speakerName = topicCountAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -53,7 +53,7 @@ class TopicCountAggregationTest {
     @Test
     fun `returns null if multiple speakers with highest count exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 10))
-        whenever(politicalSpeechRepo.groupSpeakersPerTopicOrderDesc(TOPIC_VALUE)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(TOPIC_VALUE)).thenReturn(aggResult)
         val speakerName = topicCountAggregation.execute()
         assertThat(speakerName).isNull()
     }

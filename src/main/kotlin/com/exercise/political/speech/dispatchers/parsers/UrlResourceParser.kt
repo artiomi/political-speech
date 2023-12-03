@@ -20,10 +20,13 @@ class UrlResourceParser(private val fileReader: FileReader) : FileParser {
         log.info("Evaluation request received: $evaluationRequest")
 
         val urlResource = UrlResource(evaluationRequest.uri)
-        return urlResource
+        val fileRows: List<FileRow> = urlResource
             .inputStream
             .bufferedReader()
             .use { fileReader.read(it) }
+        log.info("Evaluation request parse complete: $evaluationRequest. Read ${fileRows.size} rows")
+        
+        return fileRows
     }
 
 }

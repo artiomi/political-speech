@@ -27,7 +27,7 @@ class WordsSumAggregationTest {
 
     @Test
     fun `returns null if no speaker found`() {
-        whenever(politicalSpeechRepo.groupSpeakersPerWordsSumOrderAsc()).thenReturn(emptyList())
+        whenever(politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()).thenReturn(emptyList())
         val speakerName = wordsSumAggregation.execute()
         assertThat(speakerName).isNull()
     }
@@ -35,7 +35,7 @@ class WordsSumAggregationTest {
     @Test
     fun `returns first speaker name if only one exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 1))
-        whenever(politicalSpeechRepo.groupSpeakersPerWordsSumOrderAsc()).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()).thenReturn(aggResult)
         val speakerName = wordsSumAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -43,7 +43,7 @@ class WordsSumAggregationTest {
     @Test
     fun `returns first speaker name if one with lowest words sum is unique`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 7))
-        whenever(politicalSpeechRepo.groupSpeakersPerWordsSumOrderAsc()).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()).thenReturn(aggResult)
         val speakerName = wordsSumAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -51,7 +51,7 @@ class WordsSumAggregationTest {
     @Test
     fun `returns null if multiple speakers with lowest words sum exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 10))
-        whenever(politicalSpeechRepo.groupSpeakersPerWordsSumOrderAsc()).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()).thenReturn(aggResult)
         val speakerName = wordsSumAggregation.execute()
         assertThat(speakerName).isNull()
     }

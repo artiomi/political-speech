@@ -19,15 +19,18 @@ class EvaluationRequestDispatcher(
     private val log: Logger = LoggerFactory.getLogger(EvaluationRequestDispatcher::class.java)
 
     fun dispatch(requests: EvaluationRequests): Map<String, String?> {
+        log.info("EvaluationRequests received: $requests")
         val rows = readRows(requests)
         politicalSpeechSvc.cleanAndSave(rows)
-        return evaluationAggregationsAssembler.assemble()
+        val assembleResult = evaluationAggregationsAssembler.assemble()
+        log.info("EvaluationRequests $requests process complete. Result: $assembleResult")
+
+        return assembleResult
     }
 
     private fun readRows(requests: EvaluationRequests): List<FileRow> {
         val fileRows = mutableListOf<FileRow>()
         for (request in requests.evaluationRequests) {
-            log.info("Processing request: $request")
             val parser = chooseParser(request)
             val rows = parser.parse(request)
             fileRows.addAll(rows)

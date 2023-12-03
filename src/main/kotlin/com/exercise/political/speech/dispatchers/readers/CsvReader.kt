@@ -33,12 +33,12 @@ private fun Array<String>.toFileRow(): FileRow {
     return FileRow(
         get(0).trim(),
         get(1).trim(),
-        get(2).trim().asLocalDate(),
+        get(2).trim().toLocalDate(),
         get(3).trim().toIntOrNull() ?: throw FileReadException("Unable to parse value:[${get(3)}] as Int")
     )
 }
 
-private fun String.asLocalDate(): LocalDate {
+private fun String.toLocalDate(): LocalDate {
     try {
         return LocalDate.parse(this)
     } catch (e: Exception) {

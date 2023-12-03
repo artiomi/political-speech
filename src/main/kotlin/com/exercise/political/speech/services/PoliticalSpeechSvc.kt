@@ -12,11 +12,11 @@ class PoliticalSpeechSvc(private val politicalSpeechRepo: PoliticalSpeechRepo) {
     @Transactional
     fun cleanAndSave(rows: List<FileRow>) {
         politicalSpeechRepo.deleteAll()
-        val speeches = rows.map { it.toDomain() }
+        val speeches = rows.map { it.toPoliticalSpeech() }
         politicalSpeechRepo.saveAll(speeches)
     }
 }
 
-private fun FileRow.toDomain() =
+private fun FileRow.toPoliticalSpeech() =
     PoliticalSpeech(speakerName = speakerName, topic = topic, occurredAt = occurredAt, wordsCount = wordsCount)
 

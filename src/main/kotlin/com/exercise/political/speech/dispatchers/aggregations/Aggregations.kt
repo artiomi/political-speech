@@ -18,7 +18,7 @@ class YearCountAggregation(
     override val componentId = YEAR_COUNT
 
     override fun execute(): String? {
-        val results = politicalSpeechRepo.groupSpeakersPerYearOrderDesc(speechYear)
+        val results = politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(speechYear)
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }
@@ -32,7 +32,7 @@ class TopicCountAggregation(
     override val componentId = TOPIC_COUNT
 
     override fun execute(): String? {
-        val results = politicalSpeechRepo.groupSpeakersPerTopicOrderDesc(speechTopic)
+        val results = politicalSpeechRepo.countSpeakerSpeechesForTopicOrderCountDesc(speechTopic)
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }
@@ -43,7 +43,7 @@ class WordsSumAggregation(private val politicalSpeechRepo: PoliticalSpeechRepo) 
     override val componentId = WORDS_SUM
 
     override fun execute(): String? {
-        val results = politicalSpeechRepo.groupSpeakersPerWordsSumOrderAsc()
+        val results = politicalSpeechRepo.sumSpeakersWordsOrderSumAsc()
         return results.getFirsValueIfUniqueOrNull()?.speakerName
     }
 }

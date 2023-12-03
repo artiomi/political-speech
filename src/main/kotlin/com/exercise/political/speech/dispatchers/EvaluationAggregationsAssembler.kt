@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class EvaluationAggregationsAssembler(private val aggregations: List<Aggregation>) {
-    val attributeComponentIdMap = mapOf(
+    val responseFieldsRegistry = mapOf(
         "mostSpeeches" to YEAR_COUNT,
         "mostSecurity" to TOPIC_COUNT,
         "leastWordy" to WORDS_SUM
@@ -17,10 +17,10 @@ class EvaluationAggregationsAssembler(private val aggregations: List<Aggregation
 
     fun assemble(): Map<String, String?> {
         val result = mutableMapOf<String, String?>()
-        for ((attribute, componentId) in attributeComponentIdMap) {
-            val aggregation = getAggregationComponent(attribute, componentId)
+        for ((field, componentId) in responseFieldsRegistry) {
+            val aggregation = getAggregationComponent(field, componentId)
             val value = aggregation.execute()
-            result[attribute] = value
+            result[field] = value
         }
         return result
     }

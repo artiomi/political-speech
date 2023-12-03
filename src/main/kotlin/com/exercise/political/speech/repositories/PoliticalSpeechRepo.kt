@@ -16,7 +16,7 @@ interface PoliticalSpeechRepo : CrudRepository<PoliticalSpeech, String?> {
         """,
         nativeQuery = true
     )
-    fun groupSpeakersPerYearOrderDesc(@Param(value = "year") year: Int): List<AggregationResult>
+    fun countSpeakersSpeechesForYearOrderCountDesc(@Param(value = "year") year: Int): List<AggregationResult>
 
     @Query(
         value = """
@@ -26,7 +26,7 @@ interface PoliticalSpeechRepo : CrudRepository<PoliticalSpeech, String?> {
         """,
         nativeQuery = true
     )
-    fun groupSpeakersPerTopicOrderDesc(@Param(value = "topic") topic: String): List<AggregationResult>
+    fun countSpeakerSpeechesForTopicOrderCountDesc(@Param(value = "topic") topic: String): List<AggregationResult>
 
     @Query(
         value = """
@@ -36,5 +36,5 @@ interface PoliticalSpeechRepo : CrudRepository<PoliticalSpeech, String?> {
         """,
         nativeQuery = true
     )
-    fun groupSpeakersPerWordsSumOrderAsc(): List<AggregationResult>
+    fun sumSpeakersWordsOrderSumAsc(): List<AggregationResult>
 }

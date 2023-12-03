@@ -29,7 +29,7 @@ class YearCountAggregationTest {
 
     @Test
     fun `returns null if no speaker found`() {
-        whenever(politicalSpeechRepo.groupSpeakersPerYearOrderDesc(YEAR_PARAM)).thenReturn(emptyList())
+        whenever(politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(YEAR_PARAM)).thenReturn(emptyList())
         val speakerName = yearCountAggregation.execute()
         assertThat(speakerName).isNull()
     }
@@ -37,7 +37,7 @@ class YearCountAggregationTest {
     @Test
     fun `returns first speaker name if only one exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 1))
-        whenever(politicalSpeechRepo.groupSpeakersPerYearOrderDesc(YEAR_PARAM)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(YEAR_PARAM)).thenReturn(aggResult)
         val speakerName = yearCountAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -45,7 +45,7 @@ class YearCountAggregationTest {
     @Test
     fun `returns first speaker name if one with highest count is unique`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 7))
-        whenever(politicalSpeechRepo.groupSpeakersPerYearOrderDesc(YEAR_PARAM)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(YEAR_PARAM)).thenReturn(aggResult)
         val speakerName = yearCountAggregation.execute()
         assertThat(speakerName).isEqualTo(aggResult.first().speakerName)
     }
@@ -53,7 +53,7 @@ class YearCountAggregationTest {
     @Test
     fun `returns null if multiple speakers with highest count exist`() {
         val aggResult = listOf(AggregationResultImpl("speaker1", 10), AggregationResultImpl("speaker2", 10))
-        whenever(politicalSpeechRepo.groupSpeakersPerYearOrderDesc(YEAR_PARAM)).thenReturn(aggResult)
+        whenever(politicalSpeechRepo.countSpeakersSpeechesForYearOrderCountDesc(YEAR_PARAM)).thenReturn(aggResult)
         val speakerName = yearCountAggregation.execute()
         assertThat(speakerName).isNull()
     }
