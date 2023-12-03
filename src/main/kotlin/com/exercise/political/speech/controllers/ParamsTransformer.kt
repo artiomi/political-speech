@@ -9,7 +9,6 @@ fun paramsToRequest(urlParams: Map<String, String>): EvaluationRequests {
         .let { EvaluationRequests(it) }
 }
 
-
 fun String?.toUriSchema(): UriSchema {
     return UriSchema.entries.first { it.value == this }
 }

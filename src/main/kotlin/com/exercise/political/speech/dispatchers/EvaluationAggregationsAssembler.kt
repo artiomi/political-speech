@@ -27,7 +27,7 @@ class EvaluationAggregationsAssembler(private val aggregations: List<Aggregation
 
     fun getAggregationComponent(attribute: String, id: String): Aggregation {
         return aggregations
-            .firstOrNull { it.componentId == id }
+            .firstOrNull { it.uniqueId == id }
             ?: throw AssembleException("Unable to find handler for attribute:$attribute")
     }
 }
