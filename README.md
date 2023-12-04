@@ -42,7 +42,7 @@ Alexander Abel; homeland security; 2012-12-11; 911
 - CSV records are mapped with a `batchId`(random value generated for each evaluation request) and stored in database for evaluation calculations from next step.
  This solution was chosen in order to use SQL aggregation functionality for further calculations. 
 - Each evaluation index calculation is done by a dedicated component.
-  Currently, all evaluation components, run a custom SQL query for specific `batchId`, with additional filters (if needed) 
+  Currently, all components, run a custom SQL query for specific `batchId`, with additional filters (if needed) 
  and return aggregated results per candidate.  Some components accept customization via properties:
   - For *most speeches per year*, via property `app.speech.aggregation.speech-year`, can be updated the year for which aggregation is made.
   Default:`2013`.
@@ -71,7 +71,7 @@ mvn clean package -DskipTests
 ```
 
 ### Run
-**Note:** Before running the app on local, it is required to start PostgresSql docker instance: `docker-compose up -d`
+**Note:** Before running the app on local, it is required to start docker instance, by running below command in project's root directory: `docker-compose up -d`
 ```shell
 mvn spring-boot:run
 ```
